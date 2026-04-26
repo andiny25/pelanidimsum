@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Oswald-VariableFont';
+    src: url(/assets/fonts/Oswald-VariableFont.ttf);
+}
+
+
+.font-custom{
+    font-family: 'Oswald-VariableFont';
+}
