@@ -348,65 +348,83 @@
     }
 
     function hitungKembalian(){
-        let totalVal = parseInt(document.getElementById('total').innerText.replace(/\D/g, ''));
-        let bayarVal = document.getElementById("bayar").value;
-        if(keranjang.length === 0){ tampilkanAlert("Order kosong!", "warning"); return; }
-        if(bayarVal < totalVal || bayarVal === ""){ tampilkanAlert("Uang tidak cukup!", "danger"); return; }
+    let totalVal = parseInt(document.getElementById('total').innerText.replace(/\D/g, ''));
+    let bayarVal = document.getElementById("bayar").value;
 
-        let kembalian = bayarVal - totalVal;
-        document.getElementById("kembalian").innerText = kembalian.toLocaleString();
-        tampilkanAlert("Pembayaran Berhasil!", "success");
-    }
-
-    function cetakStruk() {
-    if (keranjang.length === 0) {
-        tampilkanAlert("Order Kosong!", "warning");
+    if(keranjang.length === 0){
+        tampilkanAlert("Order kosong!", "warning");
         return;
     }
 
-    // Update Data
+    if(bayarVal < totalVal || bayarVal === ""){
+        tampilkanAlert("Uang tidak cukup!", "danger");
+        return;
+    }
+
+    let kembalian = bayarVal - totalVal;
+    document.getElementById("kembalian").innerText = kembalian.toLocaleString();
+
+    // 🔥 KIRIM KE BACKEND
+    fetch("/transaksi/store", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            total: totalVal,
+            bayar: bayarVal,
+            kembalian: kembalian,
+            items: keranjang
+        })
+    })
+    .then(res => res.json())
+.then(data => {
+    tampilkanAlert("Pembayaran Berhasil & Tersimpan!", "success");
+})
+    .catch(async (err) => {
+    let text = await err.text();
+    console.log(text);
+    tampilkanAlert("Gagal simpan transaksi!", "danger");
+});
+}
+
+function cetakStruk() {
+    if (keranjang.length === 0) {
+        tampilkanAlert("Tidak ada data untuk struk!", "warning");
+        return;
+    }
+
     document.getElementById('st-tanggal').innerText = new Date().toLocaleString('id-ID');
 
     let listStruk = document.getElementById('struk-item-list');
     listStruk.innerHTML = "";
+
     keranjang.forEach(item => {
         listStruk.innerHTML += `
             <div style="display:flex; justify-content:space-between; width: 100%; margin-bottom: 3px;">
-                <span style="flex: 1; padding-right: 10px;">${item.nama} x${item.qty}</span>
-                <span style="white-space: nowrap;">Rp ${(item.harga * item.qty).toLocaleString()}</span>
+                <span>${item.nama} x${item.qty}</span>
+                <span>Rp ${(item.harga * item.qty).toLocaleString()}</span>
             </div>`;
     });
 
-    document.getElementById('st-total').innerText = "Rp " + document.getElementById('total').innerText;
-    document.getElementById('st-bayar').innerText = "Rp " + parseInt(document.getElementById('bayar').value || 0).toLocaleString();
-    document.getElementById('st-kembali').innerText = "Rp " + document.getElementById('kembalian').innerText;
+    document.getElementById('st-total').innerText =
+        "Rp " + document.getElementById('total').innerText;
+
+    document.getElementById('st-bayar').innerText =
+        "Rp " + document.getElementById('bayar').value;
+
+    document.getElementById('st-kembali').innerText =
+        "Rp " + document.getElementById('kembalian').innerText;
 
     const element = document.getElementById('struk-cetak');
     element.style.display = 'block';
 
-    const opt = {
-        margin:       [5, 5, 5, 5],
-        filename:     'Struk_Pelani_Dimsum.pdf',
-        image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  {
-            scale: 2,
-            useCORS: true,
-            // Penting: pastikan seluruh elemen dicapture walau panjang
-            scrollY: 0,
-            height: element.offsetHeight
-        },
-        jsPDF: {
-            unit: 'mm',
-            // Ubah format menjadi 'auto' agar tinggi kertas mengikuti konten
-            format: [85, (element.offsetHeight * 0.2645) + 20],
-            orientation: 'portrait'
-        }
-    };
+    // 🔥 PRINT LANGSUNG
+    window.print();
 
     setTimeout(() => {
-        html2pdf().set(opt).from(element).save().then(() => {
-            element.style.display = 'none';
-        });
+        element.style.display = 'none';
     }, 500);
 }
 

@@ -8,29 +8,54 @@ use App\Models\DetailTransaksi;
 
 class TransaksiController extends Controller
 {
+    // =========================
+    // RIWAYAT TRANSAKSI
+    // =========================
     public function index()
     {
-        $transaksi = Transaksi::latest()->get();
+        $transaksi = Transaksi::with('detailTransaksi.produk')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('admin.transaksi.index', compact('transaksi'));
     }
 
- public function store(Request $request)
-{
-    $transaksi = Transaksi::create([
-        'total' => $request->total,
-        'bayar' => $request->bayar,
-        'kembalian' => $request->kembalian,
-    ]);
+    // =========================
+    // SIMPAN TRANSAKSI
+    // =========================
+    public function store(Request $request)
+    {
+        try {
+            $data = $request->all();
 
-    foreach ($request->keranjang as $item) {
-        DetailTransaksi::create([
-            'transaksi_id' => $transaksi->id,
-            'produk_id' => $item['id'],
-            'qty' => $item['qty'],
-            'harga' => $item['harga'],
-        ]);
+            // buat transaksi utama
+            $transaksi = Transaksi::create([
+                'total' => $data['total'],
+                'bayar' => $data['bayar'],
+                'kembalian' => $data['kembalian'],
+            ]);
+
+            // simpan detail transaksi
+            if (!empty($data['items'])) {
+                foreach ($data['items'] as $item) {
+                    DetailTransaksi::create([
+                        'transaksi_id' => $transaksi->id,
+                        'produk_id' => $item['id'],
+                        'qty' => $item['qty'],
+                        'harga' => $item['harga'],
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'status' => 'success'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
-
-    return response()->json(['success' => true]);
-}
 }

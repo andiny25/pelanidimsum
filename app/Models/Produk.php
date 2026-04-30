@@ -9,7 +9,12 @@ class Produk extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'produk_id';
+
+    public function produk()
+{
+    return $this->belongsTo(Produk::class, 'produk_id', 'id');
+}
+
     protected $table = 'produk';
 
     protected $fillable = [

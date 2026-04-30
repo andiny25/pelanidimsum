@@ -23,20 +23,23 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Menu</th> <!-- 🔥 INI YANG KAMU MAU -->
+                        <th>Menu</th>
                         <th>Total</th>
                         <th>Tanggal</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <?php $__currentLoopData = $transaksi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
                         <td><?php echo e($loop->iteration); ?></td>
 
-                        <td>
-                            <?php echo e($item->detail); ?>
-
-                        </td>
+                        
+  <td>
+    <?php $__currentLoopData = $item->detailTransaksi ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php echo e($detail->produk->name_produk ?? ''); ?> (x<?php echo e($detail->qty); ?>)<br>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</td>
 
                         <td class="fw-bold text-warning">
                             Rp <?php echo e(number_format($item->total, 0, ',', '.')); ?>

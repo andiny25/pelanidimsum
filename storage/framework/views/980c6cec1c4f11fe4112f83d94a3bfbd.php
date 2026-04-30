@@ -81,8 +81,8 @@
             <div class="card shadow-sm border-start border-4 border-warning">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="text-muted small mb-1">Total Pelanggan</h6>
-                        <h2 class="fw-bold mb-0 text-dark"><?php echo e($totalPelanggan); ?></h2>
+                        <h6 class="text-muted small mb-1">Jumlah Penjualan</h6>
+<h2 class="fw-bold mb-0 text-dark"><?php echo e($totalPenjualan); ?></h2>
                         <small class="text-success fw-bold">↑ 12% sejak bulan lalu</small>
                     </div>
                     <div class="rounded-circle bg-pelani d-flex align-items-center justify-content-center shadow-sm"

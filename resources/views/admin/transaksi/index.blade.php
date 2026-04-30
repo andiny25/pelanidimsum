@@ -22,19 +22,23 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Menu</th> <!-- 🔥 INI YANG KAMU MAU -->
+                        <th>Menu</th>
                         <th>Total</th>
                         <th>Tanggal</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @foreach($transaksi as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
 
-                        <td>
-                            {{ $item->detail }}
-                        </td>
+                        {{-- 🔥 MENU (DARI RELASI DETAIL TRANSAKSI) --}}
+  <td>
+    @foreach($item->detailTransaksi ?? [] as $detail)
+        {{ $detail->produk->name_produk ?? '' }} (x{{ $detail->qty }})<br>
+    @endforeach
+</td>
 
                         <td class="fw-bold text-warning">
                             Rp {{ number_format($item->total, 0, ',', '.') }}

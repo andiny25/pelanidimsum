@@ -118,4 +118,4 @@ Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi
 Route::post('/kasir/store', [KasirController::class, 'store'])
     ->name('kasir.store');
     
-    Route::post('/transaksi/store', [TransaksiController::class, 'store']);
+  Route::post('/transaksi/store', [TransaksiController::class, 'store'])->name('transaksi.store');

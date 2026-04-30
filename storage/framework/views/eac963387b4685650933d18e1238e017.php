@@ -16,7 +16,10 @@
         color: var(--dark-text);
         margin-bottom: 1.2rem;
     }
-
+    .standard-img:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+    }
     .section-subtitle {
         color: var(--primary-orange);
         font-weight: 700;
@@ -223,8 +226,13 @@
                     <span class="small fw-bold">Jl. Lintas Timur, Terantang Manuk</span>
                 </div>
             </div>
+            <div class="col-lg-7 text-center">
+    <img src="<?php echo e(asset('assets-admin/img/dimsum2.jpeg')); ?>" 
+         alt="Contact Image" 
+         class="standard-img rounded-4">
+</div>
 
-            <div class="col-lg-7">
+            <!-- <div class="col-lg-7">
                 <form action="<?php echo e(route('contact.store')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="row g-3">
@@ -247,7 +255,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

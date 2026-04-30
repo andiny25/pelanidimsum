@@ -28,8 +28,6 @@ align-items:center;
 margin:0;
 }
 
-/* CARD LOGIN */
-
 .login-container{
 background:white;
 padding:40px;
@@ -39,30 +37,17 @@ width:360px;
 text-align:center;
 }
 
-/* LOGO */
-
-.login-container img{
-width:70px;
-margin-bottom:10px;
-}
-
-/* TITLE */
-
 .login-container h2{
 margin-bottom:10px;
 color:#FF7A3D;
 font-weight:600;
 }
 
-/* TEXT */
-
 .login-container p{
 font-size:14px;
 color:#666;
 margin-bottom:20px;
 }
-
-/* INPUT */
 
 .input-group{
 position:relative;
@@ -93,8 +78,6 @@ outline:none;
 border-color:#FF7A3D;
 }
 
-/* BUTTON LOGIN */
-
 .btn-login{
 width:100%;
 height:42px;
@@ -111,8 +94,6 @@ margin-top:5px;
 .btn-login:hover{
 background:#ff5f1f;
 }
-
-/* GOOGLE BUTTON */
 
 .btn-google{
 margin-top:10px;
@@ -134,12 +115,6 @@ margin-right:8px;
 color:#DB4437;
 }
 
-.btn-google:hover{
-background:#f5f5f5;
-}
-
-/* MESSAGE */
-
 .success-message{
 color:green;
 font-size:14px;
@@ -160,17 +135,17 @@ margin-bottom:10px;
 
 <div class="login-container">
 
-
-
 <h2>Login Pelani Dimsum</h2>
-
 <p>Masukkan email dan password untuk login</p>
 
-<?php if(session('message')): ?>
-<p class="<?php echo e(session('result') === 'success' ? 'success-message' : 'error-message'); ?>">
-<?php echo e(session('message')); ?>
 
-</p>
+<?php if(session('success')): ?>
+<p class="success-message">Login berhasil</p>
+<?php endif; ?>
+
+
+<?php if(session('error')): ?>
+<p class="error-message"><?php echo e(session('error')); ?></p>
 <?php endif; ?>
 
 <form action="<?php echo e(route('login.kirim')); ?>" method="POST">
@@ -192,13 +167,12 @@ Login
 
 </form>
 
-<a href="<?php echo e(route('redirect.google')); ?>" class="btn-google">
+<!-- <a href="<?php echo e(route('redirect.google')); ?>" class="btn-google">
 <i class="fab fa-google"></i>
 Login dengan Google
-</a>
+</a> -->
 
 </div>
 
 </body>
-</html>
-<?php /**PATH C:\laragon\www\pelanidimsum\resources\views/login.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\laragon\www\pelanidimsum\resources\views/login.blade.php ENDPATH**/ ?>

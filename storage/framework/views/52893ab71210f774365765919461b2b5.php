@@ -67,7 +67,7 @@
                 </li>
 
                 <!-- Pelanggan -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="<?php echo e(route('pelanggan.list')); ?>"
                        class="nav-link d-flex align-items-center mb-2"
                        style="padding: 10px 15px; <?php echo e(request()->is('pelanggan*') ? 'background:#D35400;color:white;border-radius:10px;' : 'color:#5A3E2B;'); ?>">
@@ -76,7 +76,7 @@
                         </svg>
                         <span class="fw-bold">Pelanggan</span>
                     </a>
-                </li>
+                </li> -->
 
                 <!-- Produk -->
                 <li class="nav-item">
